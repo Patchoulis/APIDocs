@@ -3,9 +3,6 @@ info:
   title: uniONE API
   version: 1.0.0
   description: All about the endpoints of uniONE
-x-config:
-  swagger_ui:
-    try_it_out_enabled: false
 paths:
   /auth/login/:
     post:
