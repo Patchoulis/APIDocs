@@ -1992,6 +1992,3 @@ components:
       - is_flag
       - lastName
       - password
-    x-config:
-  swagger_ui:
-    try_it_out_enabled: false
