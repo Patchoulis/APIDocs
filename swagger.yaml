@@ -4,6 +4,223 @@ info:
   version: 1.0.0
   description: All about the endpoints of uniONE
 paths:
+  /ads/ad:
+    get:
+      operationId: ads_ad_retrieve
+      description: Gets all ads.
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ad'
+          description: ''
+    post:
+      operationId: ads_ad_create
+      description: Adds a new ad, it checks admin authorization for non-proposals.                         Additionally,
+        there is an optional parameter 'type' when it's equal to 'proposal', will
+        add the event as a proposal instead.
+      parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+        description: Option to make it a proposal (optional)
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ad'
+          description: ''
+  /ads/ad/{id}:
+    get:
+      operationId: ads_ad_retrieve_2
+      description: |-
+        GET:
+        - Retrieves an ad based on ID.
+        - Parameters:
+            - pk (path parameter): The ID of the ad.
+            - type (query parameter): Type of ad ('all_data' for all data, anything else for media only).
+        - Responses:
+            - 200: Successful response with ad.
+            - 400: Bad request.
+            - 403: Forbidden access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: ads_ad_create_2
+      description: Updates the fields of an ad.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - ads
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ad'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ad'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Ad'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+        '404':
+          description: No response body
+        '403':
+          description: No response body
+    delete:
+      operationId: ads_ad_destroy
+      description: Deletes an ad if it exists in the database.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+        '404':
+          description: No response body
+        '403':
+          description: No response body
+  /ads/show_times:
+    get:
+      operationId: ads_show_times_retrieve
+      description: |-
+        GET:
+        - Retrieves ad showtimes based on ad_id.
+        - Parameters:
+            - ad_id (query parameter): The ID of the ad.
+        - Responses:
+            - 200: Successful response with ad showtimes.
+            - 400: Bad request.
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: ads_show_times_update
+      description: |-
+        PUT:
+        - Adds a new showtime for an ad.
+        - Parameters:
+            - ad_id (request data): The ID of the ad to which the showtime is added.
+        - Responses:
+            - 200: Successful addition of a showtime.
+            - 400: Bad request.
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /ads/show_times/{id}:
+    patch:
+      operationId: ads_show_times_partial_update
+      description: |-
+        PATCH:
+        - Updates the fields of an ad showtime.
+        - Parameters:
+            - pk (path parameter): The ID of the ad showtime.
+        - Responses:
+            - 200: Successful update of the ad showtime.
+            - 400: Bad request.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: ads_show_times_destroy
+      description: |-
+        DELETE:
+        - Deletes an ad showtime.
+        - Parameters:
+            - pk (path parameter): The ID of the ad showtime.
+        - Responses:
+            - 200: Successful deletion of the ad showtime.
+            - 400: Bad request.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /ads/user_ads:
+    get:
+      operationId: ads_user_ads_retrieve
+      description: |-
+        This is view is used to return all the ads in the database
+        ---
+        parameters:
+        none
+        responses:
+        200:
+            description: Successful return all the ads
+        400:
+            description: Bad request
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
   /auth/login/:
     post:
       operationId: auth_login_create
@@ -285,6 +502,28 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
           description: ''
+  /flags/flags:
+    get:
+      operationId: flags_flags_retrieve
+      description: |-
+        Handles GET requests
+        parameters:
+            request: rest_framework.request.Request
+                The request object
+            args: list
+                The positional arguments
+            kwargs: dict
+                The keyword arguments
+        returns:
+            response: rest_framework.response.Response
+                The response object
+      tags:
+      - flags
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
   /flags/users_with_flags:
     get:
       operationId: flags_users_with_flags_list
@@ -478,6 +717,27 @@ paths:
                 $ref: '#/components/schemas/Result'
           description: ''
         '401':
+          description: No response body
+  /logins/token-auth:
+    get:
+      operationId: logins_token_auth_retrieve
+      description: |-
+        This is the login view that's used so a user isn't logged out after an hour
+
+        ---
+        parameters:
+          none
+        responses:
+          204:
+            description: Successful user token refresh
+          400:
+            description: Bad request
+      tags:
+      - logins
+      security:
+      - {}
+      responses:
+        '200':
           description: No response body
   /matches/:
     post:
@@ -695,7 +955,22 @@ paths:
   /organizations/organization:
     get:
       operationId: organizations_organization_list
-      description: Lists all the Organizations
+      description: Lists all the Organizations. Optional                         query
+        types for filtering based on true or false 'pending' and 'rejected' values
+        that are                         set to 'true' or 'false', or all organizations
+        if left blank.
+      parameters:
+      - in: query
+        name: pending
+        schema:
+          type: string
+        description: Filter by if the organization is pending. (optional)
+      - in: query
+        name: rejected
+        schema:
+          type: string
+        description: Filter by if the organization has been rejected in the past.
+          (optional)
       tags:
       - organizations
       security:
@@ -718,13 +993,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Org'
+              $ref: '#/components/schemas/BusinessAccount'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Org'
+              $ref: '#/components/schemas/BusinessAccount'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Org'
+              $ref: '#/components/schemas/BusinessAccount'
         required: true
       security:
       - {}
@@ -733,7 +1008,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Org'
+                $ref: '#/components/schemas/BusinessAccount'
           description: ''
   /organizations/organization/{id}:
     get:
@@ -1434,6 +1709,72 @@ paths:
           description: No response body
 components:
   schemas:
+    Ad:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        media:
+          type: string
+          format: uri
+        major_to_show:
+          type: string
+          maxLength: 50
+        time_start:
+          type: string
+          format: date-time
+        time_end:
+          type: string
+          format: date-time
+        is_approved:
+          type: boolean
+        is_removed:
+          type: boolean
+        org_id:
+          type: integer
+        event_id:
+          type: integer
+      required:
+      - event_id
+      - id
+      - media
+      - org_id
+      - time_end
+      - time_start
+    BusinessAccount:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 50
+        lastName:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          maxLength: 50
+        password:
+          type: string
+        name:
+          type: string
+        bio:
+          type: string
+        description:
+          type: string
+        pending:
+          type: boolean
+          default: true
+        rejected:
+          type: boolean
+          default: false
+      required:
+      - description
+      - email
+      - firstName
+      - lastName
+      - name
+      - password
     CategoryEnum:
       enum:
       - food
@@ -1458,6 +1799,8 @@ components:
           minimum: -9223372036854775808
           format: int64
         proposal:
+          type: boolean
+        is_removed:
           type: boolean
         org_id:
           type: integer
@@ -1572,10 +1915,10 @@ components:
           readOnly: true
         firstName:
           type: string
-          readOnly: true
+          maxLength: 50
         lastName:
           type: string
-          readOnly: true
+          maxLength: 50
         preferredName:
           type: string
           maxLength: 50
@@ -1598,14 +1941,13 @@ components:
           nullable: true
         email:
           type: string
-          readOnly: true
+          maxLength: 100
         timeslot:
           $ref: '#/components/schemas/Timeslot'
         otherUserTimeslot:
           $ref: '#/components/schemas/Timeslot'
       required:
       - bio
-      - email
       - firstName
       - id
       - lastName
@@ -1628,20 +1970,26 @@ components:
         id:
           type: integer
           readOnly: true
+        manager_id:
+          type: integer
         name:
           type: string
         description:
           type: string
-        email:
+        pending:
+          type: boolean
+        rejected:
+          type: boolean
+        creation_date:
           type: string
-          maxLength: 100
-        manager_id:
-          type: integer
+          format: date-time
+          readOnly: true
+        is_removed:
+          type: boolean
       required:
+      - creation_date
       - description
-      - email
       - id
-      - manager_id
       - name
     PatchedEvent:
       type: object
@@ -1657,6 +2005,8 @@ components:
           minimum: -9223372036854775808
           format: int64
         proposal:
+          type: boolean
+        is_removed:
           type: boolean
         org_id:
           type: integer
@@ -1708,15 +2058,22 @@ components:
         id:
           type: integer
           readOnly: true
+        manager_id:
+          type: integer
         name:
           type: string
         description:
           type: string
-        email:
+        pending:
+          type: boolean
+        rejected:
+          type: boolean
+        creation_date:
           type: string
-          maxLength: 100
-        manager_id:
-          type: integer
+          format: date-time
+          readOnly: true
+        is_removed:
+          type: boolean
     PatchedTimeslot:
       type: object
       properties:
@@ -1745,12 +2102,16 @@ components:
           readOnly: true
         firstName:
           type: string
+          maxLength: 50
         lastName:
           type: string
+          maxLength: 50
         bio:
           type: string
+          maxLength: 500
         email:
           type: string
+          maxLength: 100
         preferredName:
           type: string
           maxLength: 50
@@ -1770,6 +2131,16 @@ components:
           nullable: true
         finishedSetup:
           type: boolean
+        is_removed:
+          type: boolean
+        is_restricted:
+          type: boolean
+        is_blocked:
+          type: boolean
+        creation_date:
+          type: string
+          format: date-time
+          readOnly: true
     Question:
       type: object
       properties:
@@ -1871,12 +2242,16 @@ components:
           readOnly: true
         firstName:
           type: string
+          maxLength: 50
         lastName:
           type: string
+          maxLength: 50
         bio:
           type: string
+          maxLength: 500
         email:
           type: string
+          maxLength: 100
         preferredName:
           type: string
           maxLength: 50
@@ -1896,9 +2271,19 @@ components:
           nullable: true
         finishedSetup:
           type: boolean
+        is_removed:
+          type: boolean
+        is_restricted:
+          type: boolean
+        is_blocked:
+          type: boolean
+        creation_date:
+          type: string
+          format: date-time
+          readOnly: true
       required:
       - bio
-      - email
+      - creation_date
       - firstName
       - id
       - lastName
@@ -1908,14 +2293,6 @@ components:
         id:
           type: integer
           readOnly: true
-        firstName:
-          type: string
-        lastName:
-          type: string
-        bio:
-          type: string
-        email:
-          type: string
         is_flag:
           type: string
           readOnly: true
@@ -1923,9 +2300,18 @@ components:
           type: string
           format: date-time
           nullable: true
+        firstName:
+          type: string
+          maxLength: 50
+        lastName:
+          type: string
+          maxLength: 50
         preferredName:
           type: string
           maxLength: 50
+        bio:
+          type: string
+          maxLength: 500
         major:
           type: string
           maxLength: 50
@@ -1940,6 +2326,9 @@ components:
         backgroundImg:
           type: string
           nullable: true
+        email:
+          type: string
+          maxLength: 100
         finishedSetup:
           type: boolean
         expoPushToken:
@@ -1947,6 +2336,8 @@ components:
           nullable: true
           maxLength: 100
         is_admin:
+          type: boolean
+        is_manager:
           type: boolean
         is_active:
           type: boolean
@@ -1962,7 +2353,9 @@ components:
           readOnly: true
         is_restricted:
           type: boolean
-        is_manager:
+        is_removed:
+          type: boolean
+        is_blocked:
           type: boolean
         password:
           type: string
@@ -1986,7 +2379,6 @@ components:
       required:
       - bio
       - creation_date
-      - email
       - firstName
       - id
       - is_flag
