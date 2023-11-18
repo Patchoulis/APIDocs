@@ -4,21 +4,62 @@ info:
   version: 1.0.0
   description: All about the endpoints of uniONE
 paths:
-  /ads/ad:
+  /ads/accept_all:
     get:
-      operationId: ads_ad_retrieve
-      description: Gets all ads.
+      operationId: ads_accept_all_retrieve
+      description: |-
+        Handles GET requests
+        parameters:
+            request: rest_framework.request.Request
+                The request object
+            args: list
+                The positional arguments
+            kwargs: dict
+                The keyword arguments
+        returns:
+            response: rest_framework.response.Response
+                The response object
       tags:
       - ads
       security:
       - {}
       responses:
         '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Ad'
-          description: ''
+          description: No response body
+    post:
+      operationId: ads_accept_all_create
+      description: Accepts all Ad proposals
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+        '403':
+          description: No response body
+  /ads/ad:
+    get:
+      operationId: ads_ad_retrieve
+      description: |-
+        Handles GET requests
+        parameters:
+            request: rest_framework.request.Request
+                The request object
+            args: list
+                The positional arguments
+            kwargs: dict
+                The keyword arguments
+        returns:
+            response: rest_framework.response.Response
+                The response object
+      tags:
+      - ads
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
     post:
       operationId: ads_ad_create
       description: Adds a new ad, it checks admin authorization for non-proposals.                         Additionally,
@@ -42,31 +83,6 @@ paths:
                 $ref: '#/components/schemas/Ad'
           description: ''
   /ads/ad/{id}:
-    get:
-      operationId: ads_ad_retrieve_2
-      description: |-
-        GET:
-        - Retrieves an ad based on ID.
-        - Parameters:
-            - pk (path parameter): The ID of the ad.
-            - type (query parameter): Type of ad ('all_data' for all data, anything else for media only).
-        - Responses:
-            - 200: Successful response with ad.
-            - 400: Bad request.
-            - 403: Forbidden access.
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - ads
-      security:
-      - {}
-      responses:
-        '200':
-          description: No response body
     post:
       operationId: ads_ad_create_2
       description: Updates the fields of an ad.
@@ -119,145 +135,6 @@ paths:
           description: No response body
         '403':
           description: No response body
-  /ads/show_times:
-    get:
-      operationId: ads_show_times_retrieve
-      description: |-
-        GET:
-        - Retrieves ad showtimes based on ad_id.
-        - Parameters:
-            - ad_id (query parameter): The ID of the ad.
-        - Responses:
-            - 200: Successful response with ad showtimes.
-            - 400: Bad request.
-      tags:
-      - ads
-      security:
-      - {}
-      responses:
-        '200':
-          description: No response body
-    put:
-      operationId: ads_show_times_update
-      description: |-
-        PUT:
-        - Adds a new showtime for an ad.
-        - Parameters:
-            - ad_id (request data): The ID of the ad to which the showtime is added.
-        - Responses:
-            - 200: Successful addition of a showtime.
-            - 400: Bad request.
-      tags:
-      - ads
-      security:
-      - {}
-      responses:
-        '200':
-          description: No response body
-  /ads/show_times/{id}:
-    patch:
-      operationId: ads_show_times_partial_update
-      description: |-
-        PATCH:
-        - Updates the fields of an ad showtime.
-        - Parameters:
-            - pk (path parameter): The ID of the ad showtime.
-        - Responses:
-            - 200: Successful update of the ad showtime.
-            - 400: Bad request.
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - ads
-      security:
-      - {}
-      responses:
-        '200':
-          description: No response body
-    delete:
-      operationId: ads_show_times_destroy
-      description: |-
-        DELETE:
-        - Deletes an ad showtime.
-        - Parameters:
-            - pk (path parameter): The ID of the ad showtime.
-        - Responses:
-            - 200: Successful deletion of the ad showtime.
-            - 400: Bad request.
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - ads
-      security:
-      - {}
-      responses:
-        '204':
-          description: No response body
-  /ads/user_ads:
-    get:
-      operationId: ads_user_ads_retrieve
-      description: |-
-        This is view is used to return all the ads in the database
-        ---
-        parameters:
-        none
-        responses:
-        200:
-            description: Successful return all the ads
-        400:
-            description: Bad request
-      tags:
-      - ads
-      security:
-      - {}
-      responses:
-        '200':
-          description: No response body
-  /auth/login/:
-    post:
-      operationId: auth_login_create
-      tags:
-      - auth
-      security:
-      - {}
-      responses:
-        '201':
-          description: No response body
-  /auth/refresh/:
-    post:
-      operationId: auth_refresh_create
-      description: |-
-        Takes a refresh type JSON web token and returns an access type JSON web
-        token if the refresh token is valid.
-      tags:
-      - auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MyTokenRefresh'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/MyTokenRefresh'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/MyTokenRefresh'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MyTokenRefresh'
-          description: ''
   /bans/ban/{email_key}:
     put:
       operationId: bans_ban_update
@@ -296,39 +173,62 @@ paths:
       responses:
         '200':
           description: No response body
-  /events/event:
+  /events/accept_all:
     get:
-      operationId: events_event_retrieve
-      description: Gets all events. Has the option of two query types.                    If
-        a parameter for 'attendance_type' is set, it would get all events, even if
-        filled if 'all' is the value.                    If 'filled' is instead used,
-        only filled up events are returned, and no parameter would just result in
-        unfilled                    events being shown. Finally, 'proposal_type' being
-        set to 'all' would get all the events, regardless if they were                    a
-        proposal or not. 'proposals' would only get proposals, and no parameter would
-        result in only non-proposals                   being sent.
-      parameters:
-      - in: query
-        name: attendance_type
-        schema:
-          type: string
-        description: Filter by attendance (optional)
-      - in: query
-        name: proposal_type
-        schema:
-          type: string
-        description: Filter by if it's a proposal (optional)
+      operationId: events_accept_all_retrieve
+      description: |-
+        Handles GET requests
+        parameters:
+            request: rest_framework.request.Request
+                The request object
+            args: list
+                The positional arguments
+            kwargs: dict
+                The keyword arguments
+        returns:
+            response: rest_framework.response.Response
+                The response object
       tags:
       - events
       security:
       - {}
       responses:
         '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event'
-          description: ''
+          description: No response body
+    post:
+      operationId: events_accept_all_create
+      description: Accepts all Event proposals
+      tags:
+      - events
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+        '403':
+          description: No response body
+  /events/event:
+    get:
+      operationId: events_event_retrieve
+      description: |-
+        Handles GET requests
+        parameters:
+            request: rest_framework.request.Request
+                The request object
+            args: list
+                The positional arguments
+            kwargs: dict
+                The keyword arguments
+        returns:
+            response: rest_framework.response.Response
+                The response object
+      tags:
+      - events
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
     put:
       operationId: events_event_update
       description: Adds a new event, it checks admin authorization for non-proposals.                         Additionally,
@@ -541,145 +441,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/UserSerializerWithFlags'
           description: ''
-  /locations/:
-    get:
-      operationId: locations_list
-      description: Lists all the locations
-      tags:
-      - locations
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Location'
-          description: ''
-    post:
-      operationId: locations_create
-      description: Creates a list of locations
-      tags:
-      - locations
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Location'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Location'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Location'
-        required: true
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Location'
-          description: ''
-    patch:
-      operationId: locations_partial_update
-      description: Updates all locations
-      tags:
-      - locations
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedLocation'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedLocation'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedLocation'
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Location'
-          description: ''
-    delete:
-      operationId: locations_destroy
-      description: Deletes all locations
-      tags:
-      - locations
-      security:
-      - {}
-      responses:
-        '204':
-          description: No response body
-  /locations/{location_id}:
-    get:
-      operationId: locations_retrieve
-      description: Gets a location
-      parameters:
-      - in: path
-        name: location_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - locations
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Location'
-          description: ''
-    patch:
-      operationId: locations_partial_update_2
-      description: |-
-        GET/locations/<location_id>/
-        Returns:
-        - 200: If the location is found
-        - 404: If the location is not found
-      parameters:
-      - in: path
-        name: location_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - locations
-      security:
-      - {}
-      responses:
-        '200':
-          description: No response body
-    delete:
-      operationId: locations_destroy_2
-      description: Deletes a location
-      parameters:
-      - in: path
-        name: location_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - locations
-      security:
-      - {}
-      responses:
-        '204':
-          description: No response body
   /logins/login:
     post:
       operationId: logins_login_create
@@ -739,251 +500,62 @@ paths:
       responses:
         '200':
           description: No response body
-  /matches/:
-    post:
-      operationId: matches_create
-      description: Creates a new match
-      tags:
-      - matches
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Matches'
-            examples:
-              Example1:
-                value:
-                  requester: 1
-                  recipient: 2
-                  requesterTimeSlot: 1
-                  recipientTimeSlot: 2
-                  status: pending
-                summary: Example 1
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Matches'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Matches'
-        required: true
-      security:
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Matches'
-          description: ''
-  /matches/{match_id}:
+  /organizations/accept_all:
     get:
-      operationId: matches_retrieve
-      description: Get a match
-      parameters:
-      - in: path
-        name: match_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - matches
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Matches'
-          description: ''
-    patch:
-      operationId: matches_partial_update
-      description: Update a match
-      parameters:
-      - in: path
-        name: match_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - matches
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedMatches'
-            examples:
-              Example1:
-                value:
-                  requester: 1
-                  recipient: 2
-                  requesterTimeSlot: 1
-                  recipientTimeSlot: 2
-                  status: pending
-                summary: Example 1
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedMatches'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedMatches'
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Matches'
-          description: ''
-    delete:
-      operationId: matches_destroy
-      description: Delete a match
-      parameters:
-      - in: path
-        name: match_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - matches
-      security:
-      - {}
-      responses:
-        '204':
-          description: No response body
-  /matches/{match_id}/location:
-    get:
-      operationId: matches_location_retrieve
-      description: Gets a location
-      parameters:
-      - in: path
-        name: match_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - matches
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Location'
-          description: ''
-  /matches/{match_id}/messages:
-    get:
-      operationId: matches_messages_list
-      parameters:
-      - in: path
-        name: match_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - messages
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Question'
-          description: ''
-        '400':
-          description: No response body
-        '404':
-          description: No response body
-    post:
-      operationId: matches_messages_create
-      parameters:
-      - in: path
-        name: match_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - messages
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Question'
-            examples:
-              ExampleQuestion:
-                value:
-                  sender: 1
-                  recipient: 2
-                  content: Hello
-                  match: 1
-                summary: Example Question
-              ExampleAnswer:
-                value:
-                  sender: 1
-                  recipient: 2
-                  content: Hello
-                  question: 1
-                  match: 1
-                summary: Example Answer
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Question'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Question'
-        required: true
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Question'
-          description: ''
-        '400':
-          description: No response body
-        '404':
-          description: No response body
-  /organizations/organization:
-    get:
-      operationId: organizations_organization_list
-      description: Lists all the Organizations. Optional                         query
-        types for filtering based on true or false 'pending' and 'rejected' values
-        that are                         set to 'true' or 'false', or all organizations
-        if left blank.
-      parameters:
-      - in: query
-        name: pending
-        schema:
-          type: string
-        description: Filter by if the organization is pending. (optional)
-      - in: query
-        name: rejected
-        schema:
-          type: string
-        description: Filter by if the organization has been rejected in the past.
-          (optional)
+      operationId: organizations_accept_all_retrieve
+      description: |-
+        Handles GET requests
+        parameters:
+            request: rest_framework.request.Request
+                The request object
+            args: list
+                The positional arguments
+            kwargs: dict
+                The keyword arguments
+        returns:
+            response: rest_framework.response.Response
+                The response object
       tags:
       - organizations
       security:
       - {}
       responses:
         '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Org'
-          description: ''
+          description: No response body
+    post:
+      operationId: organizations_accept_all_create
+      description: Accepts all Ad proposals
+      tags:
+      - organizations
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+        '403':
+          description: No response body
+  /organizations/organization:
+    get:
+      operationId: organizations_organization_retrieve
+      description: |-
+        Handles GET requests
+        parameters:
+            request: rest_framework.request.Request
+                The request object
+            args: list
+                The positional arguments
+            kwargs: dict
+                The keyword arguments
+        returns:
+            response: rest_framework.response.Response
+                The response object
+      tags:
+      - organizations
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
     put:
       operationId: organizations_organization_update
       description: Creates a new organization
@@ -1011,26 +583,6 @@ paths:
                 $ref: '#/components/schemas/BusinessAccount'
           description: ''
   /organizations/organization/{id}:
-    get:
-      operationId: organizations_organization_retrieve
-      description: Gets an organization with the specified id
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - organizations
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Org'
-          description: ''
     post:
       operationId: organizations_organization_create
       description: Updates an organization with the specified id
@@ -1109,6 +661,32 @@ paths:
       - {}
       responses:
         '204':
+          description: No response body
+  /user-count-overview:
+    get:
+      operationId: user_count_overview_retrieve
+      tags:
+      - user-count-overview
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /user-count-per-hour/{day}/:
+    get:
+      operationId: user_count_per_hour_retrieve
+      parameters:
+      - in: path
+        name: day
+        schema:
+          type: string
+        required: true
+      tags:
+      - user-count-per-hour
+      security:
+      - {}
+      responses:
+        '200':
           description: No response body
   /users/:
     get:
@@ -1272,247 +850,6 @@ paths:
         required: true
       tags:
       - users
-      security:
-      - {}
-      responses:
-        '204':
-          description: No response body
-  /users/{user_id}/blocklist/:
-    get:
-      operationId: users_blocklist_list
-      description: Lists all the blocked users of a user
-      parameters:
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - blocklist
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-          description: ''
-    post:
-      operationId: users_blocklist_create
-      description: Blocks a user
-      parameters:
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - blocklist
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-            examples:
-              Example1:
-                value:
-                  firstName: Joseph
-                  lastName: Doe
-                  bio: I am a student at the University of Alberta
-                  email: jdoe@ualberta.ca
-                summary: Example 1
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/User'
-        required: true
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: ''
-    delete:
-      operationId: users_blocklist_destroy
-      description: Unblocks a user
-      parameters:
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - blocklist
-      security:
-      - {}
-      responses:
-        '204':
-          description: No response body
-  /users/{user_id}/matches/:
-    get:
-      operationId: users_matches_list
-      description: Get all matches for a user
-      parameters:
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - matches
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Matches'
-          description: ''
-  /users/{user_id}/matches/{match_id}/notify/:
-    post:
-      operationId: users_matches_notify_create
-      description: Send a push notification to the other user of the match         notifying
-        them with a message about the availability of         the current user. E.g.
-        'I'll be late', 'I'm here', etc.
-      parameters:
-      - in: path
-        name: match_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - matches
-      security:
-      - {}
-      responses:
-        '200':
-          description: No response body
-  /users/{user_id}/matching/{timeslot_id}:
-    get:
-      operationId: users_matching_list
-      description: Returns a list of users that match the user's tags and timeslot
-      parameters:
-      - in: path
-        name: timeslot_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - matching
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MatchingUser'
-          description: ''
-  /users/{user_id}/tags/:
-    get:
-      operationId: users_tags_list
-      description: Lists all the users tags
-      parameters:
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - tags
-      security:
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tag'
-          description: ''
-    post:
-      operationId: users_tags_create
-      description: Creates a new tag
-      parameters:
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - tags
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Tag'
-          application/x-www-form-urlencoded:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Tag'
-          multipart/form-data:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Tag'
-        required: true
-      security:
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tag'
-          description: ''
-        '400':
-          description: No response body
-  /users/{user_id}/tags/{tag_id}:
-    delete:
-      operationId: users_tags_destroy
-      description: Removes user from tag
-      parameters:
-      - in: path
-        name: tag_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - tags
       security:
       - {}
       responses:
@@ -1715,10 +1052,18 @@ components:
         id:
           type: integer
           readOnly: true
+        name:
+          type: string
+        description:
+          type: string
         media:
           type: string
           format: uri
-        major_to_show:
+        pending:
+          type: boolean
+        rejected:
+          type: boolean
+        category:
           type: string
           maxLength: 50
         time_start:
@@ -1727,8 +1072,6 @@ components:
         time_end:
           type: string
           format: date-time
-        is_approved:
-          type: boolean
         is_removed:
           type: boolean
         org_id:
@@ -1739,6 +1082,7 @@ components:
       - event_id
       - id
       - media
+      - name
       - org_id
       - time_end
       - time_start
@@ -1768,6 +1112,12 @@ components:
         rejected:
           type: boolean
           default: false
+        phone:
+          type: string
+          maxLength: 20
+        is_removed:
+          type: boolean
+          default: false
       required:
       - description
       - email
@@ -1775,22 +1125,24 @@ components:
       - lastName
       - name
       - password
-    CategoryEnum:
-      enum:
-      - food
-      - top
-      - normal
-      type: string
-      description: |-
-        * `food` - Food
-        * `top` - Top
-        * `normal` - Normal
+      - phone
     Event:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
+        org_name:
+          type: string
+          readOnly: true
+        org_email:
+          type: string
+          readOnly: true
+        org_phone:
+          type: string
+          readOnly: true
+        name:
+          type: string
         summary:
           type: string
         attendance_max:
@@ -1800,14 +1152,26 @@ components:
           format: int64
         proposal:
           type: boolean
+        rejected:
+          type: boolean
         is_removed:
           type: boolean
+        start_datetime:
+          type: string
+          format: date-time
+        end_datetime:
+          type: string
+          format: date-time
         org_id:
           type: integer
       required:
       - attendance_max
       - id
+      - name
+      - org_email
       - org_id
+      - org_name
+      - org_phone
       - summary
     EventRequest:
       type: object
@@ -1846,13 +1210,6 @@ components:
           type: integer
       required:
       - id
-    Location:
-      type: object
-      properties:
-        place_id:
-          type: string
-      required:
-      - place_id
     LoginInp:
       type: object
       properties:
@@ -1863,107 +1220,6 @@ components:
       required:
       - email
       - password
-    Matches:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        requester:
-          allOf:
-          - $ref: '#/components/schemas/User'
-          readOnly: true
-        recipient:
-          allOf:
-          - $ref: '#/components/schemas/User'
-          readOnly: true
-        requesterTimeSlot:
-          allOf:
-          - $ref: '#/components/schemas/Timeslot'
-          readOnly: true
-        recipientTimeSlot:
-          allOf:
-          - $ref: '#/components/schemas/Timeslot'
-          readOnly: true
-        location:
-          $ref: '#/components/schemas/Location'
-        status:
-          $ref: '#/components/schemas/StatusEnum'
-        startTime:
-          type: string
-          format: date-time
-          nullable: true
-        endTime:
-          type: string
-          format: date-time
-          nullable: true
-        card:
-          type: string
-          nullable: true
-      required:
-      - id
-      - location
-      - recipient
-      - recipientTimeSlot
-      - requester
-      - requesterTimeSlot
-    MatchingUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        firstName:
-          type: string
-          maxLength: 50
-        lastName:
-          type: string
-          maxLength: 50
-        preferredName:
-          type: string
-          maxLength: 50
-        bio:
-          type: string
-          maxLength: 500
-        major:
-          type: string
-          maxLength: 50
-        year:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-          nullable: true
-        pronouns:
-          type: string
-          maxLength: 50
-        backgroundImg:
-          type: string
-          nullable: true
-        email:
-          type: string
-          maxLength: 100
-        timeslot:
-          $ref: '#/components/schemas/Timeslot'
-        otherUserTimeslot:
-          $ref: '#/components/schemas/Timeslot'
-      required:
-      - bio
-      - firstName
-      - id
-      - lastName
-      - otherUserTimeslot
-      - timeslot
-    MyTokenRefresh:
-      type: object
-      properties:
-        refresh:
-          type: string
-        access:
-          type: string
-          readOnly: true
-      required:
-      - access
-      - refresh
     Org:
       type: object
       properties:
@@ -1972,6 +1228,12 @@ components:
           readOnly: true
         manager_id:
           type: integer
+        email:
+          type: string
+          readOnly: true
+        phone:
+          type: string
+          readOnly: true
         name:
           type: string
         description:
@@ -1980,23 +1242,36 @@ components:
           type: boolean
         rejected:
           type: boolean
-        creation_date:
+        creationDate:
           type: string
           format: date-time
           readOnly: true
         is_removed:
           type: boolean
       required:
-      - creation_date
+      - creationDate
       - description
+      - email
       - id
       - name
+      - phone
     PatchedEvent:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
+        org_name:
+          type: string
+          readOnly: true
+        org_email:
+          type: string
+          readOnly: true
+        org_phone:
+          type: string
+          readOnly: true
+        name:
+          type: string
         summary:
           type: string
         attendance_max:
@@ -2006,52 +1281,18 @@ components:
           format: int64
         proposal:
           type: boolean
+        rejected:
+          type: boolean
         is_removed:
           type: boolean
+        start_datetime:
+          type: string
+          format: date-time
+        end_datetime:
+          type: string
+          format: date-time
         org_id:
           type: integer
-    PatchedLocation:
-      type: object
-      properties:
-        place_id:
-          type: string
-    PatchedMatches:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        requester:
-          allOf:
-          - $ref: '#/components/schemas/User'
-          readOnly: true
-        recipient:
-          allOf:
-          - $ref: '#/components/schemas/User'
-          readOnly: true
-        requesterTimeSlot:
-          allOf:
-          - $ref: '#/components/schemas/Timeslot'
-          readOnly: true
-        recipientTimeSlot:
-          allOf:
-          - $ref: '#/components/schemas/Timeslot'
-          readOnly: true
-        location:
-          $ref: '#/components/schemas/Location'
-        status:
-          $ref: '#/components/schemas/StatusEnum'
-        startTime:
-          type: string
-          format: date-time
-          nullable: true
-        endTime:
-          type: string
-          format: date-time
-          nullable: true
-        card:
-          type: string
-          nullable: true
     PatchedOrg:
       type: object
       properties:
@@ -2060,6 +1301,12 @@ components:
           readOnly: true
         manager_id:
           type: integer
+        email:
+          type: string
+          readOnly: true
+        phone:
+          type: string
+          readOnly: true
         name:
           type: string
         description:
@@ -2068,7 +1315,7 @@ components:
           type: boolean
         rejected:
           type: boolean
-        creation_date:
+        creationDate:
           type: string
           format: date-time
           readOnly: true
@@ -2141,37 +1388,6 @@ components:
           type: string
           format: date-time
           readOnly: true
-    Question:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        sender:
-          allOf:
-          - $ref: '#/components/schemas/User'
-          readOnly: true
-        recipient:
-          allOf:
-          - $ref: '#/components/schemas/User'
-          readOnly: true
-        content:
-          type: string
-          maxLength: 300
-        match:
-          allOf:
-          - $ref: '#/components/schemas/Matches'
-          nullable: true
-        time:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-      - content
-      - id
-      - recipient
-      - sender
-      - time
     Result:
       type: object
       properties:
@@ -2182,32 +1398,6 @@ components:
       required:
       - access
       - user
-    StatusEnum:
-      enum:
-      - pending
-      - accepted
-      - declined
-      - cancelled
-      type: string
-      description: |-
-        * `pending` - Pending
-        * `accepted` - Accepted
-        * `declined` - Declined
-        * `cancelled` - Cancelled
-    Tag:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        category:
-          $ref: '#/components/schemas/CategoryEnum'
-      required:
-      - id
-      - name
     Timeslot:
       type: object
       properties:
@@ -2360,6 +1550,9 @@ components:
         password:
           type: string
           readOnly: true
+        phone:
+          type: string
+          maxLength: 20
         groups:
           type: array
           items:
